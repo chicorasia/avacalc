@@ -25,6 +25,6 @@ def calcular_os(n: int, nt: int):
     codigo_sistema = seleciona_codigo_de_sistema(n, nt)
     valor = codigo_sistema.calcular_valor(n, nt)
     
-    return f"calculando valor para n = {n}, nt = {nt} com o código {codigo_sistema.codigo}...\nValor da OS: R$ {valor}"
+    return f"""{codigo_sistema.descricao}\n----\nCalculando valor para n = {n}, nt = {nt} com o código {codigo_sistema.codigo}...\nValor da OS: R$ {valor}"""
 
 
