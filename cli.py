@@ -4,6 +4,7 @@
 """Esse arquivo define uma interface de linha de comando para o avacalc"""
 
 import avacalc as av
+from avacalc import ResultadoCalculo
 
 def entrar_dados_os():
     """Solicita os dados de entrada n e nt na linha de comando 
@@ -33,19 +34,29 @@ def entrar_dados_os():
         except ValueError as e:
             print(f"Entrada inválida: {e}. Tente novamente.\n")
 
-    # Calcula o resultado utilizando o método calcular_os
-    resultado: str = av.calcular_os(n, nt)
-    print(resultado)
+    # Calcula o resultado utilizando o método calcular_os e retorna um ResultadoCalculo
+    resultado: ResultadoCalculo = av.calcular_os(n, nt)
+
+    # Exibe os resultados e a descrição
+    print("\n---- RESULTADO ----")
+    print(f"Descrição do código de sistema:\n{resultado.descricao}")
+    print("\n---- CÁLCULOS ----")
+    print(f"Valor da OS laudo simplificado: R$ {resultado.valor_laudo_simplificado:.2f}")
+    print(f"Valor da OS laudo completo: R$ {resultado.valor_laudo_completo:.2f}")
+    print("-------------------\n")
+
     iniciar()
 
 
 def iniciar():
-    
-    prompt: str = input("Pressione qualquer tecla para continuar ou entre q para sair: \n")
+    """Exibe o menu de opções para o usuário"""
+    prompt: str = input("Pressione qualquer tecla para continuar ou entre 'q' para sair: \n")
     if prompt.upper() == "Q":
+        print("Saindo do sistema. Até logo!")
         quit()
     else:
         entrar_dados_os()
 
 
+# Iniciar o programa
 iniciar()

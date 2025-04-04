@@ -4,7 +4,7 @@
 
 import tkinter as tk
 from tkinter import messagebox
-from avacalc import calcular_os
+from avacalc import calcular_os, ResultadoCalculo
 
 def calcular():
     try:
@@ -12,14 +12,21 @@ def calcular():
         n = int(entry_n.get())
         nt = int(entry_nt.get())
 
-        # Chamando a função de cálculo
-        resultado = calcular_os(n, nt)
+        # Chamando a função de cálculo e obtendo o wrapper ResultadoCalculo
+        resultado: ResultadoCalculo = calcular_os(n, nt)
 
-        # Exibindo o resultado na interface
+        # Exibindo a descrição no texto de saída
+        text_descricao.config(state='normal')  # Habilita edição temporária
+        text_descricao.delete('1.0', tk.END)  # Limpa o texto anterior
+        text_descricao.insert(tk.END, resultado.descricao)  # Adiciona a descrição
+        text_descricao.config(state='disabled')  # Impede edição do usuário
+
+        # Exibindo o resultado na caixa de texto
         text_resultado.config(state='normal')  # Habilita edição temporária
         text_resultado.delete('1.0', tk.END)  # Limpa o texto anterior
-        text_resultado.insert(tk.END, resultado)  # Adiciona o novo resultado
+        text_resultado.insert(tk.END, str(resultado))  # Adiciona o texto do resultado
         text_resultado.config(state='disabled')  # Impede edição do usuário
+
     except ValueError:
         messagebox.showerror("Erro de entrada", "Por favor, insira valores válidos para n e nt.")
 
@@ -42,8 +49,17 @@ entry_nt.pack()
 btn_calcular = tk.Button(janela, text="Calcular", command=calcular)
 btn_calcular.pack()
 
+# Área de texto para exibir a descrição
+label_descricao = tk.Label(janela, text="Descrição do código de sistema:")
+label_descricao.pack()
+text_descricao = tk.Text(janela, height=8, width=50, wrap='word', state='disabled')
+text_descricao.configure(padx=10, pady=10)
+text_descricao.pack()
+
 # Área de texto para exibir o resultado
-text_resultado = tk.Text(janela, height=10, width=50, state='disabled', wrap='word')
+label_resultado = tk.Label(janela, text="Resultado do cálculo:")
+label_resultado.pack()
+text_resultado = tk.Text(janela, height=5, width=50, wrap='word', state='disabled')
 text_resultado.configure(padx=10, pady=10)
 text_resultado.pack()
 
