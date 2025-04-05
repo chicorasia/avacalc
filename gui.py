@@ -4,7 +4,21 @@
 
 import tkinter as tk
 from tkinter import messagebox
-from avacalc import calcular_os, ResultadoCalculo
+from avacalc import calcular_os, ObjetoServico, definir_estado_seletor  # Importando a função e enum
+from resultado_calculo import ResultadoCalculo
+
+# Variável para o estado do seletor associada à janela
+seletor_objeto_servico = None  # Inicializada após a criação da janela
+
+
+def atualizar_estado():
+    """Atualiza o estado do seletor chamando a função definir_estado_seletor em avacalc.py."""
+    valor_selecionado = seletor_objeto_servico.get()  # Obtém o valor do Radiobutton
+    for objeto in ObjetoServico:
+        if objeto.value == valor_selecionado:
+            definir_estado_seletor(objeto)  # Atualiza o estado em avacalc.py
+            break
+
 
 def calcular():
     try:
@@ -30,9 +44,31 @@ def calcular():
     except ValueError:
         messagebox.showerror("Erro de entrada", "Por favor, insira valores válidos para n e nt.")
 
+
 # Configurando a janela principal
 janela = tk.Tk()
 janela.title("Avacalc v0.1 - Calculador de Avaliações de Imóveis")
+
+# Inicializando a variável seletor associada à janela
+seletor_objeto_servico = tk.StringVar(value=ObjetoServico.IMOVEL.value)
+
+# Seletor de ObjetoServico (RadioButtons)
+label_seletor = tk.Label(janela, text="Selecione o tipo de objeto de serviço:")
+label_seletor.pack()
+
+# Frame para organizar os RadioButtons em uma linha
+frame_radiobuttons = tk.Frame(janela)
+frame_radiobuttons.pack(pady=10)  # Adiciona margem ao redor do frame
+
+for objeto in ObjetoServico:
+    rb = tk.Radiobutton(
+        frame_radiobuttons,  # Adiciona os Radiobuttons ao frame
+        text=objeto.value,   # Texto do RadioButton
+        variable=seletor_objeto_servico,  # Variável associada
+        value=objeto.value,  # Valor do Radiobutton
+        command=atualizar_estado  # Atualiza o estado ao selecionar
+    )
+    rb.pack(side="left", padx=5)  # Configura a direção horizontal (esquerda para direita)
 
 # Rótulos e entradas
 label_n = tk.Label(janela, text="Número de unidades habitacionais (n):")
