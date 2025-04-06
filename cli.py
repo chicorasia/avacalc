@@ -6,6 +6,8 @@
 import avacalc as av
 from avacalc import ResultadoCalculo
 
+# TODO: Adicionar seletor de objeto do serviço
+
 def entrar_dados_os():
     """Solicita os dados de entrada n e nt na linha de comando 
     e invoca a função de cálculo de valor da OS"""
@@ -40,6 +42,8 @@ def entrar_dados_os():
     # Exibe os resultados e a descrição
     print("\n---- RESULTADO ----")
     print(f"Descrição do código de sistema:\n{resultado.descricao}")
+    print("\n---- CÓDIGO DE SISTEMA ----")
+    print(f"{resultado.codigo}")
     print("\n---- CÁLCULOS ----")
     print(f"Valor da OS laudo simplificado: R$ {resultado.valor_laudo_simplificado:.2f}")
     print(f"Valor da OS laudo completo: R$ {resultado.valor_laudo_completo:.2f}")

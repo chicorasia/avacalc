@@ -4,19 +4,21 @@
 """Esse arquivo mantém os métodos de cálculo do valor da OS"""
 
 from codigos_sistema import CodigoSistema, A030, A032, A035, A037, A040, A042
+from estado import Estado
 from objeto_servico import ObjetoServico
 from resultado_calculo import ResultadoCalculo
 
 # Estado inicial do seletor com valor padrão IMOVEL
-estado_seletor = ObjetoServico.IMOVEL
+estado_seletor = Estado(ObjetoServico.IMOVEL)  # Cria a instância com o valor inicial
 
 def definir_estado_seletor(novo_estado: ObjetoServico):
     """Atualiza o estado do seletor"""
-    global estado_seletor
-    if isinstance(novo_estado, ObjetoServico):
-        estado_seletor = novo_estado
-    else:
-        raise ValueError("O estado deve ser um membro da enum ObjetoServico")
+    estado_seletor.definir_estado(novo_estado)  # Atualiza o estado interno da instância Estado
+
+
+def obter_estado_seletor() -> ObjetoServico:
+    """Retorna o estado atual do seletor"""
+    return estado_seletor.obter_estado()  # Obtém o estado interno
 
 
 def obter_estado_seletor() -> ObjetoServico:
@@ -29,7 +31,7 @@ def seleciona_codigo_de_sistema(n: int, nt: int) -> CodigoSistema:
     
     cs = None
     
-    if estado_seletor == ObjetoServico.IMOVEL:
+    if estado_seletor.estado == ObjetoServico.IMOVEL:
         if n <= 50:
             cs = A032()
         elif n > 50 and n <= 100:
@@ -37,7 +39,7 @@ def seleciona_codigo_de_sistema(n: int, nt: int) -> CodigoSistema:
         elif n > 100:
             cs = A042()
 
-    if estado_seletor == ObjetoServico.TERRENO_ATE_2000:
+    if estado_seletor.estado == ObjetoServico.TERRENO_ATE_2000:
         if n <= 50:
             cs = A030()
         elif n > 50 and n <= 100:

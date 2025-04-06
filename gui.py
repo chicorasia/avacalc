@@ -4,12 +4,9 @@
 
 import tkinter as tk
 from tkinter import messagebox
-from avacalc import calcular_os, ObjetoServico, definir_estado_seletor  # Importando a função e enum
+from objeto_servico import ObjetoServico
+from avacalc import calcular_os, definir_estado_seletor, estado_seletor  # Importando a função e enum
 from resultado_calculo import ResultadoCalculo
-
-# Variável para o estado do seletor associada à janela
-seletor_objeto_servico = None  # Inicializada após a criação da janela
-
 
 def atualizar_estado():
     """Atualiza o estado do seletor chamando a função definir_estado_seletor em avacalc.py."""
@@ -18,7 +15,6 @@ def atualizar_estado():
         if objeto.value == valor_selecionado:
             definir_estado_seletor(objeto)  # Atualiza o estado em avacalc.py
             break
-
 
 def calcular():
     try:
@@ -50,7 +46,7 @@ janela = tk.Tk()
 janela.title("Avacalc v0.1 - Calculador de Avaliações de Imóveis")
 
 # Inicializando a variável seletor associada à janela
-seletor_objeto_servico = tk.StringVar(value=ObjetoServico.IMOVEL.value)
+seletor_objeto_servico = tk.StringVar(value=estado_seletor.obter_estado().value)
 
 # Seletor de ObjetoServico (RadioButtons)
 label_seletor = tk.Label(janela, text="Selecione o tipo de objeto de serviço:")
