@@ -20,7 +20,7 @@
 
 ## Screenshots
 
-![Screenshot](\screenshots\screenshot_001.png)
+![Screenshot](https://github.com/chicorasia/avacalc/blob/main/screenshots/screenshot_001.png))
 
 ## **Tecnologias Utilizadas**
 
