@@ -1,5 +1,7 @@
 """Interface gráfica para o calculador de valores de avaliação de imóveis segundo a tabela Caixa
 (c) 2025 Chico Rasia e Simone Dias
+Este projeto está licenciado sob a Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0). 
+Para mais informações, visite: https://creativecommons.org/licenses/by-nc/4.0/.
 """
 
 import tkinter as tk
@@ -96,7 +98,7 @@ text_resultado.configure(padx=10, pady=10)
 text_resultado.pack()
 
 # Linha de copyright no rodapé
-label_copyright = tk.Label(janela, text="© 2025 Chico Rasia e Simone Dias", font=("Arial", 8), fg="gray")
+label_copyright = tk.Label(janela, text="© 2025 Chico Rasia e Simone Dias\nCreative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)", font=("Arial", 8), fg="gray")
 label_copyright.pack(side="bottom")
 
 # Iniciar o loop da interface gráfica

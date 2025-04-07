@@ -1,5 +1,7 @@
 """Uma interface de linha de comando para o avacalc
-(c) 2025 Chico Rasia e Simone Dias"""
+(c) 2025 Chico Rasia e Simone Dias
+Este projeto está licenciado sob a Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0). 
+Para mais informações, visite: https://creativecommons.org/licenses/by-nc/4.0/."""
 
 """Esse arquivo define uma interface de linha de comando para o avacalc"""
 
