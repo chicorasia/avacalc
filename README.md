@@ -1,6 +1,6 @@
 # Avacalc - Calculador de Avaliações de Imóveis
 
-**Avacalc** é uma aplicação desenvolvida para facilitar o cálculo de valores de avaliação de imóveis com base em critérios da Caixa Econômica Federal. Com uma interface gráfica (GUI) funcional e bem estruturada, o projeto oferece cálculos automatizados e suporte para diferentes configurações de códigos de sistema.
+**Avacalc** é uma aplicação desenvolvida para facilitar o cálculo de valores de Ordens de Serviço para avaliação de imóveis com base em critérios da Caixa Econômica Federal. Com uma interface gráfica (GUI) funcional e bem estruturada, o projeto oferece cálculos automatizados e suporte para diferentes configurações de códigos de sistema.
 
 ---
 
