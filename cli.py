@@ -6,9 +6,9 @@ Para mais informações, visite: https://creativecommons.org/licenses/by-nc/4.0/
 """Esse arquivo define uma interface de linha de comando para o avacalc"""
 
 import avacalc as av
-from avacalc import ResultadoCalculo
+from avacalc import ResultadoCalculo, estado_seletor, definir_estado_seletor
+from objeto_servico import ObjetoServico
 
-# TODO: Adicionar seletor de objeto do serviço
 
 def entrar_dados_os():
     """Solicita os dados de entrada n e nt na linha de comando 
@@ -56,12 +56,20 @@ def entrar_dados_os():
 
 def iniciar():
     """Exibe o menu de opções para o usuário"""
-    prompt: str = input("Pressione qualquer tecla para continuar ou entre 'q' para sair: \n")
-    if prompt.upper() == "Q":
-        print("Saindo do sistema. Até logo!")
-        quit()
-    else:
-        entrar_dados_os()
+    prompt: str = input("Entre (I)móvel, (T)erreno até 2.000 m2 ou Q para sair: \n")
+    while(True):
+        if prompt.upper() == 'I':
+            definir_estado_seletor(ObjetoServico.IMOVEL)
+            break
+        if prompt.upper() == 'T':
+            definir_estado_seletor(ObjetoServico.TERRENO_ATE_2000)
+            break
+        if prompt.upper() == "Q":
+            print("Saindo do sistema. Até logo!")
+            quit()
+            
+    
+    entrar_dados_os()
 
 
 # Iniciar o programa
