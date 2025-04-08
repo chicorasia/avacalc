@@ -33,12 +33,14 @@
 
 ## **Estrutura do Projeto**
 
+```
 avacalc/ ├── avacalc.py                 # Lógica central para cálculo e manipulação de estados 
 		 ├── gui.py                     # Interface gráfica 
 		 ├── objeto_servico.py       	# Enumeração dos objetos de serviço 
 		 ├── codigo_sistema.py       	# Classes abstratas e concretas para diferentes códigos 
 		 ├── resultado_calculo.py    	# Classe para encapsular os resultados do cálculo 
 ​		  └── README.md                  # Documentação do projeto
+```
 
 ## Funcionamento
 
