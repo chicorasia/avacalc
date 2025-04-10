@@ -4,54 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Avacalc - Calculador de Avaliações</title>
-    <!-- Link para o CSS do Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body class="bg-light">
 
     <div class="container py-4">
-        <!-- Cabeçalho -->
         <h1 class="text-center text-primary mb-4">Avacalc - Calculador de Avaliações de Imóveis</h1>
 
-        <!-- Formulário -->
         <form id="calculoForm" class="bg-white p-4 shadow-sm rounded">
-            <!-- Grupo de Radiobuttons -->
             <fieldset class="mb-3">
                 <legend class="fw-bold">Selecione o tipo de objeto de serviço:</legend>
                 <div class="form-check">
                     {% for objeto in objetos %}
-                    <label class="form-check-label d-flex align-items-start" mb-3>
+                    <label class="form-check-label d-flex align-items-start mb-3">
                         <input class="form-check-input me-2" type="radio" name="objeto_selecionado" value="{{ objeto.value }}"
-                        {% if estado_atual == objeto %} checked {% endif %}>
+                        {% if estado_atual == objeto %} checked {% endif %} onclick="atualizarVisibilidade()">
                         <span>{{ objeto.value }}</span>
                     </label>
                     {% endfor %}
                 </div>
             </fieldset>
 
-            <!-- Campos de Entrada -->
-            <div class="mb-3">
-                <label for="n" class="form-label">Número de unidades habitacionais (n):</label>
-                <input type="number" id="n" name="n" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="nt" class="form-label">Número de tipologias por categoria (nt):</label>
-                <input type="number" id="nt" name="nt" class="form-control" required>
+            <div id="camposEntrada" class="mb-3">
+                <div class="mb-3">
+                    <label for="n" class="form-label">Número de unidades habitacionais (n):</label>
+                    <input type="number" id="n" name="n" class="form-control" value="1" required>
+                </div>
+                <div class="mb-3">
+                    <label for="nt" class="form-label">Número de tipologias por categoria (nt):</label>
+                    <input type="number" id="nt" name="nt" class="form-control" value="1" required>
+                </div>
             </div>
 
-            <!-- Botão -->
             <button type="button" id="calcularBtn" class="btn btn-success w-100">Calcular</button>
         </form>
 
-        <!-- Área de Resultados -->
         <h2 class="text-center mt-4">Resultados</h2>
         <div id="resultado" class="bg-white p-4 shadow-sm rounded mt-3">
-            <p id="descricao" class="fw-bold"></p>
-            <p id="valorSimplificado"></p>
-            <p id="valorCompleto"></p>
-        </div>
+            </div>
 
-        <!-- Rodapé -->
         <footer class="text-center mt-5">
             <p class="text-muted">Versão 0.1.1</p>
             <p class="text-muted">© 2025 Chico Rasia e Simone Dias</p>
@@ -65,31 +57,81 @@
         </footer>
     </div>
 
-    <!-- Link para o JS do Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
+
+        const TERRENO_ATE_10000 = "Terreno maior que 2000 m2 até 10000 m2"
+        
+        // Função para alternar o estado dos campos de entrada (ativado/desativado)
+        function atualizarVisibilidade() {
+            const camposEntrada = document.getElementById("camposEntrada");
+            const radioButtonSelecionado = document.querySelector('input[name="objeto_selecionado"]:checked');
+
+            if (radioButtonSelecionado && radioButtonSelecionado.value === TERRENO_ATE_10000) {
+                // Oculta os campos configurando diretamente o estilo display
+                camposEntrada.style.display = "none";
+
+                // Define valores padrão como 1
+                document.getElementById("n").value = 1;
+                document.getElementById("nt").value = 1;
+            } else {
+                // Exibe os campos configurando diretamente o estilo display
+                camposEntrada.style.display = "block";
+            }
+        }
+
+        // Configura eventos ao carregar a página
+        document.addEventListener("DOMContentLoaded", () => {
+            // Ajusta estado inicial
+            atualizarVisibilidade();
+
+            // Adiciona eventos de mudança para os Radiobuttons
+            const radioButtons = document.getElementsByName("objeto_selecionado");
+            radioButtons.forEach(button => {
+                button.addEventListener("change", atualizarVisibilidade);
+            });
+        });
+
+    
         document.getElementById("calcularBtn").addEventListener("click", async () => {
             const form = document.getElementById("calculoForm");
             const formData = new FormData(form);
-
+    
             try {
                 // Envia os dados para o backend
                 const response = await fetch("/calcular", {
                     method: "POST",
                     body: formData,
                 });
-
+    
                 const resultado = await response.json();
-
+    
                 const resultadoDiv = document.getElementById("resultado");
                 if (response.ok) {
-                    resultadoDiv.innerHTML = `
-                        <p><strong>Descrição:</strong> ${resultado.descricao}</p>
-                        <p><strong>Código de sistema:</strong> ${resultado.codigo}</p>
-                        <p><strong>Valor Simplificado:</strong> R$ ${resultado.valor_laudo_simplificado.toFixed(2)}</p>
-                        <p><strong>Valor Completo:</strong> R$ ${resultado.valor_laudo_completo.toFixed(2)}</p>
-                    `;
+                    // Limpa resultados anteriores
+                    resultadoDiv.innerHTML = "";
+    
+                    // Itera pelos resultados e exibe na interface
+                    resultado.resultados.forEach(r => {
+                        resultadoDiv.innerHTML += `
+                            <div class="mb-3">
+                                <p><strong>Código:</strong> ${r.codigo}</p>
+                                <p><strong>Descrição:</strong> ${r.descricao}</p>
+                                ${
+                                    r.valor_laudo_simplificado !== 0 
+                                    ? `<p><strong>Valor Simplificado:</strong> R$ ${r.valor_laudo_simplificado.toFixed(2)}</p>`
+                                    : ""
+                                }
+                                ${
+                                    r.valor_laudo_completo !== 0 
+                                    ? `<p><strong>Valor Completo:</strong> R$ ${r.valor_laudo_completo.toFixed(2)}</p>`
+                                    : ""
+                                }
+                                <hr>
+                            </div>
+                        `;
+                    });
                 } else {
                     resultadoDiv.innerHTML = `<p class="text-danger">Erro: ${resultado.error}</p>`;
                 }
@@ -99,5 +141,7 @@
             }
         });
     </script>
+    
+    
 </body>
 </html>

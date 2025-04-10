@@ -26,12 +26,13 @@ def calcular():
         # Obtém os dados do formulário
         n = int(request.form['n'])
         nt = int(request.form['nt'])
+        
         if request.form['objeto_selecionado'] is None:
-            objeto_selecionado = obter_estado_seletor()
-            print('objeto_selecionado')
+            objeto_selecionado = obter_estado_seletor().value
+            print('objeto_selecionado não definido, utilizando estado atual.')
         else:
             objeto_selecionado = request.form['objeto_selecionado']
-            print('objeto_selecionado')
+            print(f'Objeto selecionado: {objeto_selecionado}')
 
         # Atualiza o estado do seletor
         for objeto in ObjetoServico:
@@ -39,19 +40,26 @@ def calcular():
                 definir_estado_seletor(objeto)
                 break
 
-        # Realiza o cálculo
-        resultado = calcular_os(n, nt)
+        # Realiza o cálculo e obtém uma lista de resultados
+        resultados = calcular_os(n, nt)
 
-        # Retorna os resultados como JSON para atualizar a página
-        return jsonify({
-            "descricao": resultado.descricao,
-            "codigo": resultado.codigo,
-            "valor_laudo_simplificado": resultado.valor_laudo_simplificado,
-            "valor_laudo_completo": resultado.valor_laudo_completo
-        })
+        # Constrói uma lista de dicionários com os resultados
+        resultados_json = [
+            {
+                "codigo": r.codigo,
+                "descricao": r.descricao,
+                "valor_laudo_simplificado": r.valor_laudo_simplificado,
+                "valor_laudo_completo": r.valor_laudo_completo
+            }
+            for r in resultados
+        ]
+
+        # Retorna todos os resultados como JSON
+        return jsonify({"resultados": resultados_json})
 
     except Exception as e:
         return jsonify({"error": str(e)}), 400
+
 
 
 if __name__ == '__main__':
