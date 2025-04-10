@@ -61,14 +61,13 @@
 
     <script>
 
-        const TERRENO_ATE_10000 = "Terreno maior que 2000 m2 até 10000 m2"
         
-        // Função para alternar o estado dos campos de entrada (ativado/desativado)
         function atualizarVisibilidade() {
+            const TERRENO_ATE_10000 = "Terreno maior que 2000 m2 até 10000 m2"
             const camposEntrada = document.getElementById("camposEntrada");
             const radioButtonSelecionado = document.querySelector('input[name="objeto_selecionado"]:checked');
 
-            if (radioButtonSelecionado && radioButtonSelecionado.value === TERRENO_ATE_10000) {
+            if (radioButtonSelecionado && radioButtonSelecionado.value == TERRENO_ATE_10000) {
                 // Oculta os campos configurando diretamente o estilo display
                 camposEntrada.style.display = "none";
 
