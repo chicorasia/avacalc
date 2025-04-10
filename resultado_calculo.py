@@ -9,8 +9,10 @@ class ResultadoCalculo:
         self.valor_laudo_simplificado = valor_laudo_simplificado
 
     def __str__(self):
-        return (
-            f"Código de sistema: {self.codigo}\n"
-            f"Valor da OS laudo simplificado: R$ {self.valor_laudo_simplificado:.2f}\n"
-            f"Valor da OS laudo completo: R$ {self.valor_laudo_completo:.2f}"
-        )
+        resultado: str = ""
+        resultado += f"Código de sistema: {self.codigo}\n"
+        if self.valor_laudo_simplificado > 0.00:
+            resultado += f"Valor da OS laudo simplificado: R$ {self.valor_laudo_simplificado:.2f}\n"
+        if self.valor_laudo_completo > 0.00:
+            resultado += f"Valor da OS laudo completo: R$ {self.valor_laudo_completo:.2f}\n"
+        return resultado

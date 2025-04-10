@@ -18,7 +18,9 @@ class CodigoSistema(ABC):
         "A035": "Conjunto de imóveis urbanos do Grupo 1, no mesmo empreendimento, ou com características assemelhadas numa mesma região (Empreendimentos ou conjunto de unidades assemelhadas com n* entre 51 e 100 unidades). Avaliação de imóveis novos ou terrenos com características similares.",
         "A037": "Conjunto de imóveis urbanos do Grupo 1, no mesmo empreendimento, ou com características assemelhadas numa mesma região (Empreendimentos ou conjunto de unidades assemelhadas com n* entre 51 e 100 unidades). Avaliação de imóveis por situação paradigma.",
         "A040": "Conjunto de imóveis urbanos do Grupo 1, no mesmo empreendimento, ou com características assemelhadas numa mesma região (Empreendimentos ou conjunto de unidades assemelhadas com n* acima de 100 unidades). Avaliação de imóveis novos ou terrenos com características similares.",
-        "A042": "Conjunto de imóveis urbanos do Grupo 1, no mesmo empreendimento, ou com características assemelhadas numa mesma região (Empreendimentos ou conjunto de unidades assemelhadas com n* acima de 100 unidades). Avaliação de imóveis por situação paradigma."
+        "A042": "Conjunto de imóveis urbanos do Grupo 1, no mesmo empreendimento, ou com características assemelhadas numa mesma região (Empreendimentos ou conjunto de unidades assemelhadas com n* acima de 100 unidades). Avaliação de imóveis por situação paradigma.",
+        "A437": "Imóveis urbanos do Grupo 2. Avaliação do imóvel como um todo e/ou parecer de anuência de alteração de matrícula com avaliação. Laudo completo sem subsídio CAIXA.",
+        "A417": "Imóveis urbanos do Grupo 2. Avaliação do imóvel como um todo e/ou parecer de anuência de alteração de matrícula com avaliação. Laudo simplificado sem subsídio CAIXA."
     }
 
     # Dicionário centralizado com valores específicos para cada código
@@ -28,7 +30,9 @@ class CodigoSistema(ABC):
         "A035": {"VALOR_BASE_LAUDO_SIMPLIFICADO": 2169.00, "VALOR_BASE_LAUDO_COMPLETO": 3042.00, "LIMITE_MAXIMO": 6192.00, "DESCRICAO": DESCRICOES["A035"]},
         "A037": {"VALOR_BASE_LAUDO_SIMPLIFICADO": 2402.00, "VALOR_BASE_LAUDO_COMPLETO": 3566.00, "LIMITE_MAXIMO": 4966.00, "DESCRICAO": DESCRICOES["A037"]},
         "A040": {"VALOR_BASE_LAUDO_SIMPLIFICADO": 3069.00, "VALOR_BASE_LAUDO_COMPLETO": 3942.00, "LIMITE_MAXIMO": 20000.00, "LIMITE_MAXIMO_2": 25000.00,"DESCRICAO": DESCRICOES["A040"]},
-        "A042": {"VALOR_BASE_LAUDO_SIMPLIFICADO": 3302.00, "VALOR_BASE_LAUDO_COMPLETO": 4466.00, "LIMITE_MAXIMO": 15000.00, "DESCRICAO": DESCRICOES["A042"]}
+        "A042": {"VALOR_BASE_LAUDO_SIMPLIFICADO": 3302.00, "VALOR_BASE_LAUDO_COMPLETO": 4466.00, "LIMITE_MAXIMO": 15000.00, "DESCRICAO": DESCRICOES["A042"]},
+        "A437": {"VALOR_BASE_LAUDO_SIMPLIFICADO": 0.00, "VALOR_BASE_LAUDO_COMPLETO": 2350.00, "LIMITE_MAXIMO": 2350.00, "DESCRICAO": DESCRICOES["A437"]},
+        "A417": {"VALOR_BASE_LAUDO_SIMPLIFICADO": 1600.00, "VALOR_BASE_LAUDO_COMPLETO": 0.00, "LIMITE_MAXIMO": 1600.00, "DESCRICAO": DESCRICOES["A417"]}
     }
 
     
@@ -162,4 +166,31 @@ class A042(CodigoSistema):
     def calcular_valor_laudo_simplificado(self, n, nt):
         valor = self.valor_base_simplificado + 11 * (n - 1) + 20 * (nt - 1)
         return self.retorna_valor_ou_maximo(valor)
+
+
+class A417(CodigoSistema):
+    """Avaliação imóvel do grupo 2. Laudo simplificado sem subsídio Caixa"""
+
+    def __init__(self):
+        super().__init__(codigo="A417")
+
+    def calcular_valor_laudo_completo(self, n: int, nt: int):
+        return self.valor_base_completo
+    
+    def calcular_valor_laudo_simplificado(self, n, nt):
+        return self.valor_base_simplificado
+
+
+class A437(CodigoSistema):
+    """Avaliação imóvel do grupo 2. Laudo completo sem subsídio Caixa"""
+
+    def __init__(self):
+        super().__init__(codigo="A437")
+
+    def calcular_valor_laudo_completo(self, n: int, nt: int):
+        return self.valor_base_completo
+    
+    def calcular_valor_laudo_simplificado(self, n, nt):
+        return self.valor_base_simplificado
+
 
